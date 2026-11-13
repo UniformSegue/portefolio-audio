@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Audio & Hardware Lab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            void: '#070709',
+            panel: '#101014',
+            border: '#22222a',
+            neonCyan: '#00f0ff',
+            neonPurple: '#a855f7',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- WaveSurfer.js v7 -->
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="bg-void text-zinc-200 font-sans antialiased selection:bg-neonCyan selection:text-black min-h-screen bg-grid">
+
+  <!-- Navigation fixe -->
+  <header class="fixed top-0 inset-x-0 z-40 backdrop-blur-md bg-void/80 border-b border-border">
+    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#hero" id="nav-logo" class="font-mono font-bold text-sm tracking-widest text-neonCyan uppercase">
+        SYS.INIT //
+      </a>
+      <div class="flex items-center gap-4 sm:gap-6 font-mono text-xs uppercase tracking-wider text-zinc-400">
+        <a href="#audio" class="hover:text-neonCyan transition-colors">01.Prods</a>
+        <a href="#videos" class="hover:text-neonCyan transition-colors">02.AMV</a>
+        <a href="#instruments" class="hover:text-neonCyan transition-colors">03.Instruments</a>
+        <a href="#projects" class="hover:text-neonPurple transition-colors">04.Hardware</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 pt-28 pb-24 space-y-28">
+
+    <!-- SECTION 1 : HERO -->
+    <section id="hero" class="pt-6">
+      <div id="hero-container" class="animate-pulse text-zinc-500 font-mono text-sm">
+        Chargement des modules...
+      </div>
+    </section>
+
+    <!-- SECTION 2 : LECTEUR AUDIO & PLAYLIST -->
+    <section id="audio" class="scroll-mt-24 space-y-6">
+      <div class="flex items-end justify-between border-b border-border pb-3">
+        <div>
+          <span class="font-mono text-xs text-neonCyan uppercase tracking-widest">// MODULE_01</span>
+          <h2 class="text-2xl md:text-3xl font-bold tracking-tight">PRODUCTIONS & TAPE</h2>
+        </div>
+        <span id="track-count" class="font-mono text-xs text-zinc-500">0 TRACKS</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-5 bg-panel border border-border rounded-xl p-6 space-y-5 relative overflow-hidden neon-box">
+          <div class="flex items-center gap-4">
+            <div id="player-cover-trigger" title="Voir la fiche détaillée" class="group relative w-20 h-20 rounded-lg overflow-hidden bg-zinc-900 border border-border hover:border-neonCyan shrink-0 cursor-pointer transition">
+              <img id="player-cover" src="" alt="Cover" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-300" />
+              <div id="eq-indicator" class="eq-bars hidden absolute inset-0 bg-black/50 flex items-end justify-center gap-1 p-3">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                <span class="font-mono text-[9px] text-neonCyan uppercase tracking-wider px-1.5 py-0.5 bg-void/90 border border-neonCyan/50 rounded">Détails</span>
+              </div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2 font-mono text-[11px] text-neonCyan">
+                <span id="player-bpm">-- BPM</span>
+                <span>•</span>
+                <span id="player-key">--</span>
+              </div>
+              <h3 id="player-title" class="text-lg font-bold truncate mt-0.5">Sélectionnez une piste</h3>
+              <div id="player-tags" class="flex flex-wrap gap-1.5 mt-2"></div>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <input id="seek-slider" type="range" min="0" max="100" value="0" step="0.1" class="audio-range w-full" />
+            <div class="flex justify-between font-mono text-[11px] text-zinc-500">
+              <span id="current-time">00:00</span>
+              <span id="total-duration">00:00</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <div class="flex items-center gap-3">
+              <button id="btn-prev" aria-label="Précédent" class="p-2.5 rounded-lg bg-zinc-900 border border-border hover:border-neonCyan text-zinc-300 transition">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+              </button>
+              <button id="btn-play" aria-label="Lecture / Pause" class="px-5 py-2.5 rounded-lg bg-neonCyan text-black font-mono font-bold text-xs uppercase tracking-wider hover:opacity-90 transition flex items-center gap-2">
+                <span id="play-label">PLAY</span>
+              </button>
+              <button id="btn-next" aria-label="Suivant" class="p-2.5 rounded-lg bg-zinc-900 border border-border hover:border-neonCyan text-zinc-300 transition">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2 w-28">
+              <span class="font-mono text-[10px] text-zinc-500">VOL</span>
+              <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.85" class="audio-range w-full" />
+            </div>
+          </div>
+
+          <p id="audio-error" class="hidden font-mono text-xs text-rose-400 bg-rose-950/40 border border-rose-800/50 rounded p-2"></p>
+          <audio id="audio-element" preload="metadata"></audio>
+        </div>
+
+        <div id="playlist-container" class="lg:col-span-7 space-y-2.5"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 3 : VIDÉOS & AMV -->
+    <section id="videos" class="scroll-mt-24 space-y-6">
+      <div class="flex items-end justify-between border-b border-border pb-3">
+        <div>
+          <span class="font-mono text-xs text-neonPurple uppercase tracking-widest">// MODULE_02</span>
+          <h2 class="text-2xl md:text-3xl font-bold tracking-tight">VIDÉOS & AMV</h2>
+        </div>
+        <span id="video-count" class="font-mono text-xs text-zinc-500">0 CLIPS</span>
+      </div>
+
+      <div id="videos-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- SECTION 4 : INSTRUMENTS & TOOLS (MAÎTRISE) -->
+    <section id="instruments" class="scroll-mt-24 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between border-b border-border pb-3 gap-4">
+        <div>
+          <span class="font-mono text-xs text-neonCyan uppercase tracking-widest">// MODULE_03</span>
+          <h2 class="text-2xl md:text-3xl font-bold tracking-tight">INSTRUMENTS & TOOLS</h2>
+        </div>
+        <div id="instruments-filters" class="flex flex-wrap gap-2 font-mono text-xs"></div>
+      </div>
+
+      <div id="instruments-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- SECTION 5 : PROJETS HARDWARE & ACOUSTIQUE (DIY / SOUND SYSTEM) -->
+    <section id="projects" class="scroll-mt-24 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between border-b border-border pb-3 gap-4">
+        <div>
+          <span class="font-mono text-xs text-neonPurple uppercase tracking-widest">// MODULE_04</span>
+          <h2 class="text-2xl md:text-3xl font-bold tracking-tight">PROJETS HARDWARE & ACOUSTIQUE</h2>
+        </div>
+        <div id="projects-filters" class="flex flex-wrap gap-2 font-mono text-xs"></div>
+      </div>
+
+      <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-border py-8 text-center font-mono text-xs text-zinc-500">
+    <p id="footer-text">STATIC JSON ARCHITECTURE // DEPLOYED ON GITHUB PAGES</p>
+  </footer>
+
+  <!-- MODALE 1 : FICHE DÉTAILLÉE PISTE AUDIO + CASSETTE TAPE -->
+  <div id="track-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md">
+    <div id="track-modal-backdrop" class="absolute inset-0"></div>
+
+    <div class="relative z-10 w-full max-w-4xl max-h-[92vh] overflow-y-auto bg-panel border border-border rounded-2xl p-6 sm:p-8 shadow-2xl neon-box space-y-6">
+      <div class="flex items-center justify-between border-b border-border pb-4">
+        <div class="flex items-center gap-2 font-mono text-xs text-neonCyan uppercase tracking-widest">
+          <span class="w-2 h-2 rounded-full bg-neonCyan animate-pulse"></span>
+          <span>// TRACK_INSPECTOR_MODULE</span>
+        </div>
+        <button id="modal-close" class="font-mono text-xs px-3 py-1.5 rounded-lg bg-zinc-900 border border-border hover:border-neonCyan text-zinc-400 hover:text-white transition">
+          [ESC] FERMER ✕
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+        <!-- Colonne Gauche : Cover entière + Module Cassette Tape -->
+        <div class="md:col-span-5 space-y-4">
+          <div class="bg-void border border-border rounded-xl p-3 flex items-center justify-center">
+            <img id="modal-cover" src="" alt="Track Cover" class="w-full max-h-64 object-contain rounded-lg" />
+          </div>
+
+          <!-- MODULE CASSETTE AUDIO CYBERPUNK / OP-1 STYLE -->
+          <div class="bg-void border border-border rounded-xl p-3.5 space-y-2 relative overflow-hidden">
+            <div class="flex items-center justify-between font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+              <span class="flex items-center gap-1.5">
+                <span id="tape-led" class="w-1.5 h-1.5 rounded-full bg-zinc-600 transition-colors"></span>
+                <span id="tape-status-label">TAPE_DECK // STANDBY</span>
+              </span>
+              <span id="tape-reel-counter" class="text-neonCyan">CrO2 // 4-TRACK</span>
+            </div>
+
+            <svg viewBox="0 0 320 130" class="w-full h-auto select-none" aria-label="Animation Cassette Audio">
+              <!-- Châssis externe de la cassette -->
+              <rect x="6" y="6" width="308" height="118" rx="10" fill="#0b0b10" stroke="#262630" stroke-width="2" />
+              <!-- Vis de coin style hardware -->
+              <circle cx="18" cy="18" r="2.5" fill="#27272a" />
+              <circle cx="302" cy="18" r="2.5" fill="#27272a" />
+              <circle cx="18" cy="112" r="2.5" fill="#27272a" />
+              <circle cx="302" cy="112" r="2.5" fill="#27272a" />
+
+              <!-- Étiquette supérieure -->
+              <rect x="24" y="16" width="272" height="72" rx="6" fill="#121218" stroke="#22222a" stroke-width="1" />
+              <line x1="24" y1="30" x2="296" y2="30" stroke="#00f0ff" stroke-opacity="0.25" stroke-width="1" />
+
+              <!-- Fenêtre centrale transparente -->
+              <rect x="62" y="34" width="196" height="46" rx="23" fill="#070709" stroke="#27272a" stroke-width="1.5" />
+
+              <!-- Repères gradués de bande au centre -->
+              <line x1="138" y1="57" x2="182" y2="57" stroke="#27272a" stroke-width="1" stroke-dasharray="2 3" />
+              <line x1="160" y1="44" x2="160" y2="70" stroke="#a855f7" stroke-opacity="0.4" stroke-width="1" />
+
+              <!-- Bobine de bande magnétique (épaisseur dynamique gauche / droite) -->
+              <circle id="tape-pack-left" cx="104" cy="57" r="30" fill="none" stroke="#1e1b2e" stroke-width="12" />
+              <circle id="tape-pack-right" cx="216" cy="57" r="20" fill="none" stroke="#1e1b2e" stroke-width="4" />
+
+              <!-- BOBINE GAUCHE (Animée) -->
+              <g id="reel-left" class="tape-reel" style="transform-origin: 104px 57px;">
+                <circle cx="104" cy="57" r="15" fill="#070709" stroke="#00f0ff" stroke-width="2" />
+                <circle cx="104" cy="57" r="5" fill="none" stroke="#00f0ff" stroke-width="1.2" opacity="0.6" />
+                <!-- 6 crans d'entraînement -->
+                <line x1="104" y1="42" x2="104" y2="47" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="104" y1="67" x2="104" y2="72" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="91" y1="49.5" x2="95.3" y2="52" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="112.7" y1="62" x2="117" y2="64.5" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="91" y1="64.5" x2="95.3" y2="62" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="112.7" y1="52" x2="117" y2="49.5" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+              </g>
+
+              <!-- BOBINE DROITE (Animée) -->
+              <g id="reel-right" class="tape-reel" style="transform-origin: 216px 57px;">
+                <circle cx="216" cy="57" r="15" fill="#070709" stroke="#00f0ff" stroke-width="2" />
+                <circle cx="216" cy="57" r="5" fill="none" stroke="#00f0ff" stroke-width="1.2" opacity="0.6" />
+                <!-- 6 crans d'entraînement -->
+                <line x1="216" y1="42" x2="216" y2="47" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="216" y1="67" x2="216" y2="72" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="203" y1="49.5" x2="207.3" y2="52" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="224.7" y1="62" x2="229" y2="64.5" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="203" y1="64.5" x2="207.3" y2="62" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+                <line x1="224.7" y1="52" x2="229" y2="49.5" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+              </g>
+
+              <!-- Trapèze inférieur de tête de lecture -->
+              <polygon points="74,124 92,96 228,96 246,124" fill="#101016" stroke="#262630" stroke-width="1.5" />
+              <!-- Bande magnétique passant devant la tête -->
+              <line x1="96" y1="118" x2="224" y2="118" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.7" />
+              <!-- Trous de cabestan -->
+              <circle cx="115" cy="110" r="4" fill="#070709" stroke="#27272a" stroke-width="1.2" />
+              <circle cx="205" cy="110" r="4" fill="#070709" stroke="#27272a" stroke-width="1.2" />
+              <rect x="148" y="104" width="24" height="12" rx="2" fill="#070709" stroke="#00f0ff" stroke-opacity="0.4" stroke-width="1" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Colonne Droite : Métadonnées & Processus créatif -->
+        <div class="md:col-span-7 space-y-5">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 font-mono text-xs text-neonCyan mb-1">
+              <span id="modal-bpm">-- BPM</span>
+              <span>•</span>
+              <span id="modal-key">KEY: --</span>
+              <span>•</span>
+              <span id="modal-duration">--:--</span>
+            </div>
+            <h3 id="modal-title" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Titre de la piste</h3>
+            <div id="modal-tags" class="flex flex-wrap gap-1.5 mt-3"></div>
+          </div>
+
+          <div class="bg-void/80 border border-border rounded-xl p-4 space-y-2">
+            <h4 class="font-mono text-[11px] text-neonPurple uppercase tracking-wider">// DÉMARCHE CRÉATIVE & SOUND DESIGN</h4>
+            <p id="modal-process" class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line"></p>
+          </div>
+
+          <div id="modal-gear-block" class="space-y-2 hidden">
+            <h4 class="font-mono text-[11px] text-zinc-500 uppercase tracking-wider">// SIGNAL CHAIN & HARDWARE</h4>
+            <div id="modal-gear" class="flex flex-wrap gap-1.5"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lecteur Waveform -->
+      <div class="bg-void border border-border rounded-xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <button id="modal-play-btn" class="px-4 py-2 rounded-lg bg-neonCyan text-black font-mono font-bold text-xs uppercase tracking-wider hover:opacity-90 transition">
+              PLAY
+            </button>
+            <span class="font-mono text-xs text-zinc-400">
+              <span id="modal-current-time" class="text-white">00:00</span> / <span id="modal-total-time">00:00</span>
+            </span>
+          </div>
+          <span id="waveform-status" class="font-mono text-[11px] text-zinc-500 uppercase">CLIQUEZ SUR L'ONDE POUR NAVIGUER</span>
+        </div>
+
+        <div id="waveform-container" class="w-full h-24 cursor-pointer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE 2 : FICHE DÉTAILLÉE INSTRUMENT / PROJET HARDWARE -->
+  <div id="item-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md">
+    <div id="item-modal-backdrop" class="absolute inset-0"></div>
+
+    <div class="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-panel border border-border rounded-2xl p-6 sm:p-8 shadow-2xl neon-box space-y-6">
+      <div class="flex items-center justify-between border-b border-border pb-4">
+        <div class="flex items-center gap-2 font-mono text-xs text-neonCyan uppercase tracking-widest">
+          <span id="item-modal-dot" class="w-2 h-2 rounded-full bg-neonCyan animate-pulse"></span>
+          <span id="item-modal-header-label">// MODULE_INSPECTOR</span>
+        </div>
+        <button id="item-modal-close" class="font-mono text-xs px-3 py-1.5 rounded-lg bg-zinc-900 border border-border hover:border-neonCyan text-zinc-400 hover:text-white transition">
+          [ESC] FERMER ✕
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+        <div class="md:col-span-5 bg-void border border-border rounded-xl p-3 flex items-center justify-center">
+          <img id="item-modal-image" src="" alt="Aperçu" class="w-full max-h-80 object-contain rounded-lg" />
+        </div>
+
+        <div class="md:col-span-7 space-y-5">
+          <div>
+            <span id="item-modal-category" class="font-mono text-xs text-neonCyan uppercase tracking-wider">CATÉGORIE</span>
+            <h3 id="item-modal-title" class="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1">Nom de l'élément</h3>
+          </div>
+
+          <div id="item-modal-instrument-meta" class="hidden bg-void/90 border border-border rounded-xl p-4 space-y-3">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="text-zinc-400">NIVEAU DE MAÎTRISE</span>
+              <span id="item-modal-mastery-text" class="text-neonCyan font-bold">Expert</span>
+            </div>
+            <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden border border-border">
+              <div id="item-modal-mastery-bar" class="h-full bg-gradient-to-r from-neonCyan to-neonPurple transition-all duration-500" style="width: 85%"></div>
+            </div>
+            <div class="flex items-center justify-between font-mono text-xs pt-1 border-t border-border/60">
+              <span class="text-zinc-400">PRATIQUE</span>
+              <span id="item-modal-since" class="text-zinc-200">Depuis 2020</span>
+            </div>
+          </div>
+
+          <div id="item-modal-project-meta" class="hidden space-y-4">
+            <div class="flex items-center justify-between bg-void/90 border border-border rounded-xl px-4 py-3 font-mono text-xs">
+              <span class="text-zinc-400">STATUT DU PROJET</span>
+              <span id="item-modal-status" class="px-2.5 py-0.5 rounded font-bold uppercase">Terminé</span>
+            </div>
+            <div class="space-y-2">
+              <h4 class="font-mono text-[11px] text-zinc-500 uppercase tracking-wider">// SPÉCIFICATIONS TECHNIQUES</h4>
+              <div id="item-modal-specs" class="flex flex-wrap gap-1.5"></div>
+            </div>
+          </div>
+
+          <div class="bg-void/80 border border-border rounded-xl p-4 space-y-2">
+            <h4 id="item-modal-desc-title" class="font-mono text-[11px] text-neonPurple uppercase tracking-wider">// DESCRIPTION & UTILISATION</h4>
+            <p id="item-modal-description" class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+{
+  "hero": {
+    "alias": "UniformBeat",
+    "tagline": "CloudTechno • AMV Editor • Audio Hardware Maker",
+    "bio": "Conception sonore hybride entre nappes éthérées, 808 saturées et électronique embarquée. Toutes les productions sont façonnées entre synthétiseurs analogiques, échantillonneurs portables et systèmes électroacoustiques sur mesure.",
+    "status": "",
+    "links": [
+      { "label": "SoundCloud", "url": "https://soundcloud.com" },
+      { "label": "YouTube", "url": "https://www.youtube.com/@UniformSegueBeat" },
+      { "label": "GitHub", "url": "https://github.com/UniformSegue" },
+      { "label": "Instagram", "url": "https://instagram.com" }
+    ]
+  },
+  "tracks": [
+    {
+      "id": "trk-1",
+      "title": "Don't listen to your head, listen to your heart",
+      "BPM": 140,
+      "key": "Em",
+      "duration": "02:44",
+      "tags": ["CloudTechno", "OP-1", "SynthWave"],
+      "src": "./assets/audio/1.mp3",
+      "cover": "./assets/img/song1.jpg",
+      "gear_used": ["Teenage Engineering OP-1", "Ableton Live"],
+      "process_description": "Nappes composées sur le moteur String de l'OP-1 et enregistrées sur le 4-pistes interne avant export multipiste dans Ableton Live pour le traitement des basses et le mixage spatial."
+    },
+    {
+      "id": "trk-2",
+      "title": "Look now i can fly",
+      "BPM": 150,
+      "key": "Gm",
+      "duration": "03:51",
+      "tags": ["CloudTechno", "OP-1", "AcidCore"],
+      "src": "./assets/audio/2.mp3",
+      "cover": "./assets/img/song2.png",
+      "gear_used": ["Teenage Engineering OP-1", "Korg Monologue", "Ableton Live"],
+      "process_description": "Ligne acide séquencée à 150 BPM avec automatisation de la résonance et du drive analogique, superposée à des textures aériennes."
+    },
+    {
+      "id": "trk-3",
+      "title": "Do you see this guy ?",
+      "BPM": 145,
+      "key": "E",
+      "duration": "03:51",
+      "tags": ["CloudTechno", "OP-1", "AcidCore"],
+      "src": "./assets/audio/3.mp3",
+      "cover": "./assets/img/song3.png",
+      "gear_used": ["Teenage Engineering OP-1", "Pédale Fuzz DIY", "Ableton Live"],
+      "process_description": "Travail sur la distorsion harmonique en passant les percussions dans un circuit Fuzz DIY avant re-sampling."
+    },
+    {
+      "id": "trk-4",
+      "title": "Is that dub ?",
+      "BPM": 75,
+      "key": "Dm",
+      "duration": "03:51",
+      "tags": ["Dub", "OP-1", "AcidCore"],
+      "src": "./assets/audio/4.mp3",
+      "cover": "./assets/img/song4.jpg",
+      "gear_used": ["Teenage Engineering OP-1", "Korg Monologue", "Ableton Live"],
+      "process_description": "Exploration dub half-time à 75 BPM conçue pour tester la réponse impulsionnelle et la descente dans le sous-grave sur pavillon replié."
+    }
+  ],
+  "videos": [
+    {
+      "id": "vid-1",
+      "title": "Who the F*ck is Lil Peep // Clip",
+      "anime": "Cyberpunk Edgerunners",
+      "type": "youtube",
+      "url": "https://youtu.be/lzpE3GRjevA?si=MS5n24nIwRdyXPCl",
+      "description": "Montage réalisé et synchronisé sur les transitoires pour la musique Who the f*ck is Lil Peep."
+    }
+    
+  ],
+  "instruments_tools": [
+    {
+      "id": "inst-1",
+      "name": "Teenage Engineering OP-1",
+      "category": "Synth & Sampler",
+      "image": "./assets/img/op1.webp",
+      "mastery_level": "Expert (90%)",
+      "practice_since": "Depuis 2026",
+      "description": "L'instrument au cœur de ma création musicale. Je l'utilise aussi bien comme station de travail autonome grâce à son magnétophone 4-pistes virtuel et ses moteurs de synthèse (String, FM, Cluster) que comme contrôleur MIDI maître."
+    },
+    {
+      "id": "inst-2",
+      "name": "Ableton Live & REAPER",
+      "category": "Software DAW",
+      "image": "./assets/img/ableton.png",
+      "mastery_level": "Expert (70%)",
+      "practice_since": "Depuis 2024",
+      "description": "Environnement principal pour l'arrangement, le sound design avancé, le mixage et le mastering de mes morceaux. Gestion de chaînes d'effets hybrides avec routage vers mes périphériques matériels externes."
+    }
+  ],
+  "hardware_projects": [
+    {
+      "id": "proj-1",
+      "title": "Sound System Pavillonnaire (MTH-46 VS & MT-130)",
+      "category": "Acoustique & Sound System",
+      "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=900&q=80",
+      "specs": ["Hornresp Simulation", "Tapped Horn Sub", "Filtrage Actif DSP", "Menuiserie CNC/Scie"],
+      "status": "En cours",
+      "description": "Conception, simulation acoustique sous Hornresp et fabrication d'un système de sonorisation complet. Le registre grave repose sur des caissons Tapped Horn MTH-46 VS couplés à des têtes pavillonnées MT-130, le tout piloté par un processeur DSP actif (filtrage, égalisation paramétrique, alignement temporel et limiteurs) et une distribution électrique dédiée."
+    },
+    {
+      "id": "proj-2",
+      "title": "UEO Introduction à la MAO",
+      "category": "Compostion et Production d'un AMV",
+      "image": "./assets/img/lilpeepminia.jpg",
+      "specs": ["Production Musical", "Editing AMV", "Mixage Audio", "Sampling & Sound Design"],
+      "status": "Terminé",
+      "description": "Production d'un morceau sur le thème \"Ensemble\" pour l'atelier culture : Introduction à la MAO."
+    }
+  ]
+}
